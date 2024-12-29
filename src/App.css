@@ -1,38 +1,32 @@
-.App {
-  text-align: center;
+/* Define colour theme */
+:root {
+  --rw-primary-color: #AEBF2A;
+  --rw-secondary-color: #A2A63F;
+  --rw-tertiary-color: #CDD9A0;
+  --rw-background-color: #E8F2D0;
+  --rw-white: #F2F2F2;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.rw-primary-color {
+  background-color: var(--rw-primary-color) !important;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.rw-secondary-color {
+  background-color: var(--rw-secondary-color) !important;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.rw-tertiary-color {
+  background-color: var(--rw-tertiary-color) !important;
 }
 
-.App-link {
-  color: #61dafb;
+.rw-background-color {
+  background-color: var(--rw-background-color) !important;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.rw-white {
+  background-color: var(--white) !important;
+}
+
+Button:active {
+  background-color: var(--rw-secondary-color) !important;
 }
