@@ -14,8 +14,8 @@ const RegisterSeller = () => {
         phoneNumber: '',
         confirmPassword: '',
     });
-    const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
+    const [errors, setErrors] = useState([]);  // Store multiple error messages
+    const [success, setSuccess] = useState('');  // Store success message
 
     const handleChange = (e) => {
         setFormData({
@@ -27,23 +27,63 @@ const RegisterSeller = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        // Check if passwords match
         if (formData.password !== formData.confirmPassword) {
-            setError('Passwords do not match!');
+            setErrors(['Passwords do not match!']);
             return;
         }
 
         try {
             const response = await axios.post('sellers/register', formData);
             setSuccess('Registration successful!');
-            setError('');
+            setErrors([]);  // Clear errors if registration is successful
         } catch (err) {
-            setError(err.response?.data?.message || 'An error occurred.');
-            setSuccess('');
+            if (err.response?.data) {
+                // Extract validation error messages from the response
+                const errorMessages = extractErrorMessages(err.response.data);
+                setErrors(errorMessages);
+                setSuccess(''); // Clear success message if there is an error
+            } else {
+                setErrors(['An error occurred. Please try again later.']);
+                setSuccess(''); // Clear success message if there is an error
+            }
         }
     };
 
-    return (
+    // Function to extract and format validation error messages from backend HTML response
+    const extractErrorMessages = (htmlData) => {
+        const errorMessages = [];
+        
+        // Match the validation errors in the response data
+        const errorMatch = htmlData.match(/ValidationError: (.*)<br>/);
+        if (errorMatch) {
+            // Clean up and separate each error message
+            const errors = errorMatch[1]
+                .replace(/<br>/g, '') // Remove <br> tags
+                .replace(/&nbsp;/g, ' ') // Replace non-breaking space
+                .split(',')  // Split errors by comma
+                .map((error) => error.trim()); // Trim excess spaces
+            
+            // Format and map the error messages
+            errors.forEach((error) => {
+                if (error.includes('email')) {
+                    errorMessages.push("Please provide a valid email address.");
+                } else if (error.includes('password')) {
+                    errorMessages.push("Password must be at least 6 characters.");
+                } else if (error.includes('phoneNumber')) {
+                    errorMessages.push("Phone number must be 11 digits long.");
+                } else if (error.includes('dateOfBirth')) {
+                    errorMessages.push("Date of birth must be in the past.");
+                } else {
+                    errorMessages.push(error); // Generic error message
+                }
+            });
+        }
+        
+        return errorMessages;
+    };
 
+    return (
         <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="formBasicName">
                 <Form.Label>Name</Form.Label>
@@ -75,6 +115,7 @@ const RegisterSeller = () => {
                     value={formData.DOB}
                     onChange={handleChange}
                 />
+                <small className="form-text text-muted">Date of birth must be in the past.</small>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicDistrict">
@@ -121,7 +162,7 @@ const RegisterSeller = () => {
                 <Form.Label>Phone No.</Form.Label>
                 <Form.Control
                     type="text"
-                    placeholder="Enter phone number"
+                    placeholder="03XXXXXXXXX"
                     name="phoneNumber"
                     value={formData.phoneNumber}
                     onChange={handleChange}
@@ -154,19 +195,22 @@ const RegisterSeller = () => {
                 Register
             </Button>
 
-            {error && (
+            {errors.length > 0 && (
                 <div className="alert alert-danger" role="alert">
-                    {error}
+                    <ul>
+                        {errors.map((error, index) => (
+                            <li key={index}>{error}</li>
+                        ))}
+                    </ul>
                 </div>
             )}
+
             {success && (
                 <div className="alert alert-success" role="alert">
                     {success}
                 </div>
             )}
-
         </Form>
-
     );
 };
 
