@@ -13,13 +13,15 @@ import VerifyEmail from './pages/VerifyEmail';
 import BuyerDashboard from './pages/BuyerDashboard';
 import SellerDashboard from './pages/SellerDashboard';
 import AddProduct from './pages/AddProduct';
+import BuyerEditProfile from './pages/BuyerEditProfile';
+import SellerEditProfile from './pages/SellerEditProfile';
 
 const App = () => {
   useEffect(() => {
     const payload = JSON.parse(localStorage.getItem('jwt_payload')); // Get token from localStorage
+    const currentPath = window.location.pathname; // Get the current URL path
 
     if (payload) {
-      const currentPath = window.location.pathname; // Get the current URL path
       if (currentPath !== '/' && currentPath !== '/buyer' && currentPath !== '/seller' && currentPath !== '/register' &&
         currentPath !== '/register/buyer' && currentPath !== '/register/seller' && currentPath !== '/verify-email' &&
         currentPath !== '/verify-seller-email') {
@@ -29,6 +31,12 @@ const App = () => {
         window.location.href = '/buyer-dashboard'; // Redirect to buyer dashboard
       } else if (payload.seller) {
         window.location.href = '/seller-dashboard'; // Redirect to seller dashboard
+      }
+    } else {
+      if (currentPath !== '/' && currentPath !== '/buyer' && currentPath !== '/seller' && currentPath !== '/register' &&
+        currentPath !== '/register/buyer' && currentPath !== '/register/seller' && currentPath !== '/verify-email' &&
+        currentPath !== '/verify-seller-email') {
+        window.location.href = '/'; // Redirect to login page
       }
     }
   }, []); // Empty dependency array ensures it runs once on initial load
@@ -52,6 +60,8 @@ const App = () => {
           <Route path="/seller-dashboard" element={<SellerDashboard />} />
           <Route path="/buyer-dashboard" element={<BuyerDashboard />} />
           <Route path="/add-product" element={<AddProduct />} />
+          <Route path="/buyer-profile" element={<BuyerEditProfile />} />
+          <Route path="/seller-profile" element={<SellerEditProfile />} />
         </Routes>
       </BrowserRouter>
       <Footer />

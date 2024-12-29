@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import axios from '../config/apiConfig';  // Assuming this contains the API configuration
+import { useNavigate } from 'react-router';
+import { UserContext } from '../context/UserContext';
 
 const LoginSeller = () => {
+    const { userRole, setUserRole } = useContext(UserContext);
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -32,8 +37,9 @@ const LoginSeller = () => {
             setErrors([]);  // Clear errors if login is successful
             // Store JWT Token
             localStorage.setItem('jwt_payload', JSON.stringify(response.data));
+            setUserRole('seller');
             // Redirect to seller dashboard
-            window.location.href = '/seller-dashboard';
+            navigate('/seller-dashboard');
         } catch (err) {
             if (err.response?.data) {
                 const errorMessages = extractErrorMessages(err.response.data);
