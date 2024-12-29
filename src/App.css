@@ -27,6 +27,10 @@
   background-color: var(--white) !important;
 }
 
+.rw-text-secondary {
+  color: var(--rw-secondary-color) !important;
+}
+
 Button:active {
   background-color: var(--rw-secondary-color) !important;
 }
