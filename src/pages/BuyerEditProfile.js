@@ -68,7 +68,7 @@ const BuyerEditProfile = () => {
     return (
         <Container
             fluid
-            className="d-flex flex-column align-items-center justify-content-center rw-background-color py-5 my-4"
+            className="d-flex flex-column align-items-center justify-content-center py-5 mt-3 rw-background-color"
             style={{ minHeight: '100vh' }}
         >
             <Row className="justify-content-center align-self-center w-100">

@@ -73,12 +73,12 @@ const SellerEditProfile = () => {
     return (
         <Container
             fluid
-            className="d-flex flex-column align-items-center justify-content-center rw-background-color py-5 my-4"
+            className="d-flex flex-column align-items-center justify-content-center py-5 mt-3 rw-background-color"
             style={{ minHeight: '100vh' }}
         >
             <Row className="justify-content-center align-self-center w-100">
                 <Col xs={12} sm={8} md={6} lg={4}>
-                    <Card className="shadow-sm p-2 mt-3">
+                    <Card className="shadow-sm p-2 mt-4">
                         <Card.Body>
                             <h2 className="text-center mb-4">Edit Profile</h2>
                             {error && <Alert variant="danger">{error}</Alert>}
