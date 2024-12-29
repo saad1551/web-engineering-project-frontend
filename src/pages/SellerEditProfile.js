@@ -45,17 +45,18 @@ const SellerEditProfile = () => {
             return;
         }
 
-        const formData = new FormData();
-        formData.append('name', name);
-        formData.append('email', email);
-        formData.append('DOB', DOB);
-        formData.append('district', district);
-        formData.append('division', division);
-        formData.append('province', province);
-        formData.append('phoneNumber', phoneNumber);
+        const data = {
+            "name": name,
+            "email": email,
+            "DOB": DOB,
+            "district": district,
+            "division": division,
+            "province": province,
+            "phoneNumber": phoneNumber
+        };
 
         try {
-            const response = await axios.put('sellers/edit-profile', formData, { withCredentials: true });
+            const response = await axios.put('sellers/edit-profile', data, { withCredentials: true });
 
             const jwtPayload = JSON.parse(localStorage.getItem('jwt_payload'));
             jwtPayload.seller = response.data.seller;

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from '../config/apiConfig';
 import { Container, Row, Col, Card, Alert, Spinner, Button } from 'react-bootstrap';
+import ConfirmOrder from './ConfirmOrder';
 
 // Helper function to recursively fetch products for categories and subcategories
 const fetchProductsForCategory = async (categoryId) => {
@@ -18,6 +19,8 @@ const CategoryDropdown = () => {
     const [groupedProducts, setGroupedProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [showModal, setShowModal] = useState(false); // Modal visibility state
+    const [selectedProduct, setSelectedProduct] = useState(null); // Selected product for order
 
     // Fetch categories and products
     useEffect(() => {
@@ -36,14 +39,14 @@ const CategoryDropdown = () => {
                         // Recursively fetch products for subcategories
                         const subcategoriesData = category.categories
                             ? await Promise.all(
-                                  category.categories.map(async (subcategory) => {
-                                      const subcategoryProducts = await fetchProductsForCategory(subcategory._id);
-                                      return {
-                                          subcategory,
-                                          products: subcategoryProducts,
-                                      };
-                                  })
-                              )
+                                category.categories.map(async (subcategory) => {
+                                    const subcategoryProducts = await fetchProductsForCategory(subcategory._id);
+                                    return {
+                                        subcategory,
+                                        products: subcategoryProducts,
+                                    };
+                                })
+                            )
                             : [];
 
                         return {
@@ -65,6 +68,12 @@ const CategoryDropdown = () => {
 
         fetchData();
     }, []);
+
+    // Handle the "Order" button click to show the confirmation modal
+    const handleOrderClick = (product) => {
+        setSelectedProduct(product); // Set the selected product for the order
+        setShowModal(true); // Show the modal
+    };
 
     // Show loading spinner while fetching
     if (loading) {
@@ -114,7 +123,10 @@ const CategoryDropdown = () => {
                                                                         <Card.Text>
                                                                             <strong>Price:</strong> PKR {product.price}
                                                                         </Card.Text>
-                                                                        <Button href={`/product/${product._id}`} className="rw-primary-color border-0">
+                                                                        <Button
+                                                                            className="rw-primary-color border-0"
+                                                                            onClick={() => handleOrderClick(product)} // Trigger modal
+                                                                        >
                                                                             Order
                                                                         </Button>
                                                                     </Card.Body>
@@ -134,6 +146,7 @@ const CategoryDropdown = () => {
                     </Col>
                 </Row>
             ))}
+            <ConfirmOrder showModal={showModal} setShowModal={setShowModal} selectedProduct={selectedProduct} />
         </Container>
     );
 };

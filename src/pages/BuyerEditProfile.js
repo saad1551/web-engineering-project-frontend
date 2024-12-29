@@ -21,7 +21,6 @@ const BuyerEditProfile = () => {
                 const buyer = JSON.parse(localStorage.getItem('jwt_payload')).buyer;
                 setName(buyer.name);
                 setEmail(buyer.email);
-                setDOB(DOB ? new Date(DOB).toISOString().split('T')[0] : '');
                 setPhoneNumber(buyer.phoneNumber);
             } catch (err) {
                 setError('Failed to load profile data');
@@ -43,14 +42,15 @@ const BuyerEditProfile = () => {
             return;
         }
 
-        const formData = new FormData();
-        formData.append('name', name);
-        formData.append('email', email);
-        formData.append('DOB', DOB);
-        formData.append('phoneNumber', phoneNumber);
+        const data = {
+            "name": name,
+            "email": email,
+            "DOB": DOB,
+            "phoneNumber": phoneNumber
+        };
 
         try {
-            const response = await axios.post('buyers/edit-profile', formData, { withCredentials: true });
+            const response = await axios.post('buyers/edit-profile', data, { withCredentials: true });
             // Update values in the jwt_payload
             const jwtPayload = JSON.parse(localStorage.getItem('jwt_payload'));
             jwtPayload.buyer = response.data.buyer;

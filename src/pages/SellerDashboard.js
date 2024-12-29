@@ -85,7 +85,7 @@ const SellerDashboard = () => {
                             {/* Product Grid */}
                             <Row className="g-4">
                                 {products.length === 0 ? (
-                                    <Alert variant="info" className="m-2 w-100 text-center">
+                                    <Alert variant="info" className="w-100 text-center">
                                         No products found. Add some products!
                                     </Alert>
                                 ) : (

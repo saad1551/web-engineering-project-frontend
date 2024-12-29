@@ -17,6 +17,7 @@
 
 .rw-tertiary-color {
   background-color: var(--rw-tertiary-color) !important;
+  color:#444;
 }
 
 .rw-background-color {
