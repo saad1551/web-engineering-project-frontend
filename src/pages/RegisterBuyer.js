@@ -32,7 +32,7 @@ const RegisterBuyer = () => {
 
         try {
             const response = await axios.post('buyers/register', formData);
-            setSuccess('Registration successful!');
+            setSuccess('Registration successful! Please check your email for verification.');
             setErrors([]);  // Clear errors if registration is successful
         } catch (err) {
             if (err.response?.data) {

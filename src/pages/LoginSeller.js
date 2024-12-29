@@ -27,10 +27,13 @@ const LoginSeller = () => {
         }
 
         try {
-            const response = await axios.post('sellers/login', formData);  // Assume the backend API path is 'buyers/login'
+            const response = await axios.post('sellers/login', formData,  { withCredentials: true });  // Assume the backend API path is 'buyers/login'
             setSuccess('Login successful!');
             setErrors([]);  // Clear errors if login is successful
-            // Optionally handle further actions like storing token or redirecting user here
+            // Store JWT Token
+            localStorage.setItem('jwt_payload', JSON.stringify(response.data));
+            // Redirect to seller dashboard
+            window.location.href = '/seller-dashboard';
         } catch (err) {
             if (err.response?.data) {
                 const errorMessages = extractErrorMessages(err.response.data);
