@@ -27,7 +27,12 @@ const SellerOrders = () => {
         <Container className="py-4">
             <Card className="shadow-sm mb-4">
                 <Card.Body>
-                    <Card.Title className="fw-bold text-center fs-4">Current Orders</Card.Title>
+                    <Card.Title className="fw-bold text-center fs-4">
+                        Current Orders
+                        <span className="d-block" style={{ fontSize: '1.2rem', direction: 'rtl' }}>
+                            موجودہ آرڈرز
+                        </span>
+                    </Card.Title>
                 </Card.Body>
             </Card>
 
@@ -35,6 +40,7 @@ const SellerOrders = () => {
             {loading && (
                 <div className="text-center my-4">
                     <Spinner animation="border" variant="primary" />
+                    <div style={{ direction: 'rtl', marginTop: '10px' }}>براہ کرم انتظار کریں...</div> {/* Urdu loading text */}
                 </div>
             )}
 
@@ -42,6 +48,9 @@ const SellerOrders = () => {
             {error && (
                 <Alert variant="danger" className="text-center">
                     {error}
+                    <span className="d-block" style={{ fontSize: '1.2rem', direction: 'rtl' }}>
+                        آرڈرز حاصل کرنے میں خرابی
+                    </span>
                 </Alert>
             )}
 
@@ -49,6 +58,9 @@ const SellerOrders = () => {
             {!loading && !error && orders.length === 0 && (
                 <Alert variant="info" className="text-center">
                     No orders found.
+                    <span className="d-block" style={{ fontSize: '1.2rem', direction: 'rtl' }}>
+                        کوئی آرڈرز نہیں ملے
+                    </span>
                 </Alert>
             )}
 
@@ -64,13 +76,13 @@ const SellerOrders = () => {
                                         <strong>Product:</strong> {order.productId.name}
                                     </Card.Title>
                                     <Card.Text>
-                                        <strong>Customer:</strong> {order.buyerId.name}
+                                        <strong>Customer/گاہک:</strong> {order.buyerId.name}
                                     </Card.Text>
                                     <Card.Text>
                                         <strong>Phone:</strong> {order.buyerId.phoneNumber}
                                     </Card.Text>
                                     <Card.Text>
-                                        <strong>Address:</strong> {order.address}
+                                        <strong>Address/پتہ:</strong> {order.address}
                                     </Card.Text>
                                     <Card.Text>
                                         <strong>Date:</strong> {new Date(order.createdAt).toLocaleDateString()}

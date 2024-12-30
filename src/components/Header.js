@@ -1,4 +1,3 @@
-// Header.js
 import React, { useContext } from 'react';
 import { Container, Nav, Navbar, Image, Button } from 'react-bootstrap';
 import { UserContext } from '../context/UserContext';
@@ -52,7 +51,20 @@ const Header = () => {
                             </>
                         )}
                     </Nav>
-                    {/* Logout button - Inside collapsible menu for mobile */}
+                    {/* Logout button - Visible on all screen sizes */}
+                    {userRole && (
+                        <div className="d-none d-lg-block ml-3">
+                            <Button
+                                variant="outline-light"
+                                className="fw-bold"
+                                onClick={handleLogout}
+                            >
+                                Logout
+                            </Button>
+                        </div>
+                    )}
+
+                    {/* Mobile Logout button - Visible only on mobile screens */}
                     {userRole && (
                         <div className="d-lg-none w-100 mt-3">
                             <Button

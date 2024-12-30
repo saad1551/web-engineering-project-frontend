@@ -83,12 +83,24 @@ const AddProduct = () => {
                 <Col xs={12} sm={8} md={6} lg={4}>
                     <Card className="shadow-sm p-2 mt-3">
                         <Card.Body>
-                            <h2 className="text-center mb-4">Add New Product</h2>
+                            <h2 className="text-center mb-4">
+                                Add New Product
+                                <span className="d-block" style={{ fontSize: '1.2rem', direction: 'rtl' }}>
+                                    نیا پروڈکٹ شامل کریں
+                                </span>
+                            </h2>
                             {error && <Alert variant="danger">{error}</Alert>}
                             {successMessage && <Alert variant="success">{successMessage}</Alert>}
                             <Form onSubmit={handleSubmit}>
                                 <Form.Group controlId="productName" className="mb-3">
-                                    <Form.Label>Product Name</Form.Label>
+                                    <Form.Label className="d-flex justify-content-between">
+                                        <span className="text-start" style={{ fontSize: '1.1rem' }}>
+                                            Product Name
+                                        </span>
+                                        <span className="text-end" style={{ fontSize: '1.1rem', direction: 'rtl' }}>
+                                            پروڈکٹ کا نام
+                                        </span>
+                                    </Form.Label>
                                     <Form.Control
                                         type="text"
                                         placeholder="Enter product name"
@@ -99,7 +111,12 @@ const AddProduct = () => {
                                 </Form.Group>
 
                                 <Form.Group controlId="productPrice" className="mb-3">
-                                    <Form.Label>Price</Form.Label>
+                                    <Form.Label className="d-flex justify-content-between">
+                                        Price
+                                        <span className="d-block" style={{ fontSize: '1.1rem', direction: 'rtl' }}>
+                                            قیمت
+                                        </span>
+                                    </Form.Label>
                                     <Form.Control
                                         type="number"
                                         placeholder="Enter product price"
@@ -110,7 +127,12 @@ const AddProduct = () => {
                                 </Form.Group>
 
                                 <Form.Group controlId="productDescription" className="mb-3">
-                                    <Form.Label>Description</Form.Label>
+                                    <Form.Label className="d-flex justify-content-between">
+                                        Description
+                                        <span className="d-block" style={{ fontSize: '1.1rem', direction: 'rtl' }}>
+                                            تفصیل
+                                        </span>
+                                    </Form.Label>
                                     <Form.Control
                                         as="textarea"
                                         rows={3}
@@ -122,7 +144,12 @@ const AddProduct = () => {
                                 </Form.Group>
 
                                 <Form.Group controlId="productCategory" className="mb-3">
-                                    <Form.Label>Category</Form.Label>
+                                    <Form.Label className="d-flex justify-content-between">
+                                        Category
+                                        <span className="d-block" style={{ fontSize: '1.1rem', direction: 'rtl' }}>
+                                            کیٹیگری
+                                        </span>
+                                    </Form.Label>
                                     <Form.Control
                                         as="select"
                                         value={categoryId}
@@ -135,7 +162,8 @@ const AddProduct = () => {
                                         <option value="">Select Category</option>
                                         {categories.map((category) => (
                                             <option key={category._id} value={category._id}>
-                                                {category.name}
+                                                <span className="text-start" style={{ fontSize: '1.1rem' }}>{category.name}</span>
+                                                <span className='text-end' style={{ fontSize: '1.1rem', direction: 'rtl' }}>{category.nameUrdu}</span>
                                             </option>
                                         ))}
                                     </Form.Control>
@@ -143,7 +171,12 @@ const AddProduct = () => {
 
                                 {categoryId && (
                                     <Form.Group controlId="productSubCategory" className="mb-3">
-                                        <Form.Label>Subcategory</Form.Label>
+                                        <Form.Label className="d-flex justify-content-between">
+                                            Subcategory
+                                            <span className="d-block" style={{ fontSize: '1.1rem', direction: 'rtl' }}>
+                                                ذیلی قسم
+                                            </span>
+                                        </Form.Label>
                                         <Form.Control
                                             as="select"
                                             value={subCategoryId}
@@ -155,16 +188,23 @@ const AddProduct = () => {
                                                 .find((category) => category._id === categoryId)
                                                 ?.categories.map((subcategory) => (
                                                     <option key={subcategory._id} value={subcategory._id}>
-                                                        {subcategory.name}
+                                                        <div className='d-flex justify-content-between'>
+                                                            <span className="text-start" style={{ fontSize: '1.1rem' }}>{subcategory.name}</span>
+                                                            <span className='text-end' style={{ fontSize: '1.1rem', direction: 'rtl' }}>{subcategory.nameUrdu}</span>
+                                                        </div>
                                                     </option>
                                                 ))}
                                         </Form.Control>
                                     </Form.Group>
                                 )}
 
-
                                 <Form.Group controlId="productImage" className="mb-3">
-                                    <Form.Label>Product Image</Form.Label>
+                                    <Form.Label className="d-flex justify-content-between">
+                                        Product Image
+                                        <span className="d-block" style={{ fontSize: '1.1rem', direction: 'rtl' }}>
+                                            پروڈکٹ کی تصویر
+                                        </span>
+                                    </Form.Label>
                                     <Form.Control
                                         type="file"
                                         accept="image/*"
@@ -184,18 +224,26 @@ const AddProduct = () => {
                                     </div>
                                 )}
 
-                                <Form.Group controlId="isMakeToOrder" className="mb-3">
+                                <Form.Group controlId="isMakeToOrder" className="mb-3 d-flex justify-content-between">
                                     <Form.Check
                                         type="checkbox"
                                         label="Make to Order"
                                         checked={isMakeToOrder}
                                         onChange={(e) => setIsMakeToOrder(e.target.checked)}
                                     />
+                                    <span className="d-block" style={{ fontSize: '1.1rem', direction: 'rtl' }}>
+                                        آرڈر پر بنائیں
+                                    </span>
                                 </Form.Group>
 
                                 {isMakeToOrder && (
                                     <Form.Group controlId="preparationDays" className="mb-3">
-                                        <Form.Label>Preparation Days</Form.Label>
+                                        <Form.Label className='d-flex justify-content-between'>
+                                            Preparation Days
+                                            <span className="d-block" style={{ fontSize: '1.1rem', direction: 'rtl' }}>
+                                                تیاری کے دن
+                                            </span>
+                                        </Form.Label>
                                         <Form.Control
                                             type="number"
                                             value={preparationDays}
@@ -207,7 +255,12 @@ const AddProduct = () => {
 
                                 {!isMakeToOrder && (
                                     <Form.Group controlId="quantity" className="mb-3">
-                                        <Form.Label>Quantity</Form.Label>
+                                        <Form.Label className='d-flex justify-content-between'>
+                                            Quantity
+                                            <span className="d-block" style={{ fontSize: '1.1rem', direction: 'rtl' }}>
+                                                مقدار
+                                            </span>
+                                        </Form.Label>
                                         <Form.Control
                                             type="number"
                                             value={quantity}
@@ -219,6 +272,9 @@ const AddProduct = () => {
 
                                 <Button type="submit" className="w-100 rw-primary-color border-0" disabled={loading}>
                                     {loading ? <Spinner animation="border" size="sm" /> : 'Add Product'}
+                                    <span className="d-block" style={{ fontSize: '1.1rem', direction: 'rtl' }}>
+                                        پروڈکٹ شامل کریں
+                                    </span>
                                 </Button>
                             </Form>
                         </Card.Body>

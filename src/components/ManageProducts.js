@@ -10,11 +10,19 @@ const ManageProducts = ({ products }) => {
                 <Col xs={12} md={10} lg={8}>
                     <Card className="shadow-lg border-0">
                         <Card.Body className="p-4">
-                            <Card.Title className="fw-bold text-center mb-4">Manage Your Products</Card.Title>
+                            <Card.Title className="fw-bold text-center mb-4">
+                                Manage Your Products
+                                <span className="d-block" style={{ fontSize: '1.2rem', direction: 'rtl' }}>
+                                    اپنے مصنوعات کا انتظام کریں
+                                </span>
+                            </Card.Title>
                             <div className="text-center mb-4">
                                 <Link to="/add-product">
                                     <Button className="rw-primary-color px-4 py-2">
                                         Add New Product
+                                        <span className="d-block" style={{ fontSize: '1.1rem', direction: 'rtl' }}>
+                                            نیا پروڈکٹ شامل کریں
+                                        </span>
                                     </Button>
                                 </Link>
                             </div>
@@ -23,6 +31,9 @@ const ManageProducts = ({ products }) => {
                                     <Col>
                                         <Alert variant="info" className="text-center">
                                             No products found. Add some products!
+                                            <span className="d-block" style={{ fontSize: '1.1rem', direction: 'rtl' }}>
+                                                کوئی مصنوعات نہیں ملی۔ کچھ مصنوعات شامل کریں!
+                                            </span>
                                         </Alert>
                                     </Col>
                                 ) : (
