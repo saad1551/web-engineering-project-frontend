@@ -115,7 +115,6 @@ const RegisterSeller = () => {
                     value={formData.DOB}
                     onChange={handleChange}
                 />
-                <small className="form-text text-muted">Date of birth must be in the past.</small>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicDistrict">

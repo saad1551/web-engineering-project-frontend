@@ -51,7 +51,6 @@ const App = () => {
             <Route path="seller" element={<LoginSeller />} />
           </Route>
           <Route path="/register" element={<Register />}>
-            <Route index element={<RegisterSeller />} />
             <Route path="buyer" element={<RegisterBuyer />} />
             <Route path="seller" element={<RegisterSeller />} />
           </Route>

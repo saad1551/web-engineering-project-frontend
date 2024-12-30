@@ -19,24 +19,20 @@ const CategoryDropdown = () => {
     const [groupedProducts, setGroupedProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [showModal, setShowModal] = useState(false); // Modal visibility state
-    const [selectedProduct, setSelectedProduct] = useState(null); // Selected product for order
+    const [showModal, setShowModal] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState(null);
 
     // Fetch categories and products
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Fetch categories
                 const categoryResponse = await axios.get('products/get-categories');
-                console.log('Categories:', categoryResponse.data);
                 setCategories(categoryResponse.data);
 
-                // Recursively fetch products for each category
                 const groupedData = await Promise.all(
                     categoryResponse.data.map(async (category) => {
                         const products = await fetchProductsForCategory(category._id);
 
-                        // Recursively fetch products for subcategories
                         const subcategoriesData = category.categories
                             ? await Promise.all(
                                 category.categories.map(async (subcategory) => {
@@ -69,77 +65,78 @@ const CategoryDropdown = () => {
         fetchData();
     }, []);
 
-    // Handle the "Order" button click to show the confirmation modal
     const handleOrderClick = (product) => {
-        setSelectedProduct(product); // Set the selected product for the order
-        setShowModal(true); // Show the modal
+        setSelectedProduct(product);
+        setShowModal(true);
     };
 
-    // Show loading spinner while fetching
     if (loading) {
         return (
-            <div className="text-center">
+            <div className="text-center py-5">
                 <Spinner animation="border" variant="primary" />
             </div>
         );
     }
 
-    // Show error message if fetching fails
     if (error) {
         return <Alert variant="danger">{error}</Alert>;
     }
 
-    // Show message if no products or categories are available
     if (groupedProducts.length === 0) {
         return <Alert variant="warning">No products or categories found.</Alert>;
     }
 
     return (
-        <Container className="mt-4">
+        <Container fluid className="py-4">
             {groupedProducts.map((group) => (
-                <Row key={group.category._id} className="mb-3">
+                <Row key={group.category._id} className="mb-4">
                     <Col>
-                        <Card className="bg-white shadow-sm">
+                        <Card className="shadow-sm border-0">
                             <Card.Body>
-                                {/* Category Title */}
-                                <Card.Title className="fw-bold rw-text-secondary">{group.category.name}</Card.Title>
+                                <Card.Title className="fw-bold rw-text-secondary">
+                                    {group.category.name}
+                                </Card.Title>
 
-                                {/* Subcategories list */}
-                                {group.subcategories.length > 0 && (
-                                    <div>
-                                        {group.subcategories.map((subcategory) => (
-                                            <div key={subcategory.subcategory._id} className="mb-3">
-                                                <h6>{subcategory.subcategory.name}</h6>
-                                                {/* Display products for each subcategory */}
-                                                {subcategory.products.length > 0 ? (
-                                                    <Row>
-                                                        {subcategory.products.map((product) => (
-                                                            <Col key={product._id} xs={12} md={6} lg={4}>
-                                                                <Card className="mb-1">
-                                                                    <Card.Img variant="top" src={product.image} />
-                                                                    <Card.Body>
-                                                                        <Card.Title>{product.name}</Card.Title>
-                                                                        <Card.Text>{product.description}</Card.Text>
-                                                                        <Card.Text>
-                                                                            <strong>Price:</strong> PKR {product.price}
-                                                                        </Card.Text>
-                                                                        <Button
-                                                                            className="rw-primary-color border-0"
-                                                                            onClick={() => handleOrderClick(product)} // Trigger modal
-                                                                        >
-                                                                            Order
-                                                                        </Button>
-                                                                    </Card.Body>
-                                                                </Card>
-                                                            </Col>
-                                                        ))}
-                                                    </Row>
-                                                ) : (
-                                                    <p>No products available.</p>
-                                                )}
-                                            </div>
-                                        ))}
-                                    </div>
+                                {/* Subcategories and Products */}
+                                {group.subcategories.length > 0 ? (
+                                    group.subcategories.map((subcategory) => (
+                                        <div key={subcategory.subcategory._id} className="mb-4">
+                                            <h5 className="mb-3">{subcategory.subcategory.name}</h5>
+                                            <Row className="g-4">
+                                                {subcategory.products.map((product) => (
+                                                    <Col key={product._id} xs={12} sm={6} md={4} lg={3}>
+                                                        <Card className="shadow-sm h-100">
+                                                            <Card.Img
+                                                                variant="top"
+                                                                src={product.image || 'default-image-url.jpg'}
+                                                                alt={product.name}
+                                                                className="product-card-img"
+                                                            />
+                                                            <Card.Body className="d-flex flex-column">
+                                                                <Card.Title className="text-truncate">
+                                                                    {product.name}
+                                                                </Card.Title>
+                                                                <Card.Text className="text-truncate text-muted">
+                                                                    {product.description}
+                                                                </Card.Text>
+                                                                <Card.Text>
+                                                                    <strong>Price:</strong> PKR {product.price}
+                                                                </Card.Text>
+                                                                <Button
+                                                                    className="mt-auto rw-primary-color border-0"
+                                                                    onClick={() => handleOrderClick(product)}
+                                                                >
+                                                                    Order
+                                                                </Button>
+                                                            </Card.Body>
+                                                        </Card>
+                                                    </Col>
+                                                ))}
+                                            </Row>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p>No subcategories or products available.</p>
                                 )}
                             </Card.Body>
                         </Card>

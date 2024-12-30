@@ -52,14 +52,17 @@ const Header = () => {
                             </>
                         )}
                     </Nav>
+                    {/* Logout button - Inside collapsible menu for mobile */}
                     {userRole && (
-                        <Button
-                            variant="outline-light"
-                            className="ms-3"
-                            onClick={handleLogout}
-                        >
-                            Logout
-                        </Button>
+                        <div className="d-lg-none w-100 mt-3">
+                            <Button
+                                variant="outline-light"
+                                className="w-100"
+                                onClick={handleLogout}
+                            >
+                                Logout
+                            </Button>
+                        </div>
                     )}
                 </Navbar.Collapse>
             </Container>
